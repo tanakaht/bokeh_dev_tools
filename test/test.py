@@ -1,5 +1,4 @@
 import sys, os, time
-sys.path.append('/Users/ht/googledrive/PycharmProjects/bokeh_dev_tools')
 from bokeh_dev_tools import watcher
 import sample_bokeh_app
 import importlib
