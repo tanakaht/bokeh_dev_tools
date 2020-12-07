@@ -34,7 +34,7 @@ class InteractiveBokehServer:
         print(self.server)
         # self.stop_server()
 
-    def __new__(cls, app_dict=None, jupyter='colab'):
+    def __new__(cls, app_dict=None, port=6006):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
