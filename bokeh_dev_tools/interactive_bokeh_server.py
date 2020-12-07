@@ -31,8 +31,10 @@ class InteractiveBokehServer:
         InteractiveBokehServer._exist = True
 
     def __del__(self):
-        print(self.server)
-        # self.stop_server()
+        try:
+            self.stop_server()
+        except Exception as e:
+            print(e)
 
     def __new__(cls, app_dict=None, port=6006):
         if cls._instance is None:
@@ -42,7 +44,7 @@ class InteractiveBokehServer:
     def start_server(self):
         if self.env == 'script':
             self.server.start()
-            self.server_thread = threading.Thread(target=self.server.io_loop.start)
+            self.server_thread = threading.Thread(target=self.server.io_loop.start, daemon=True)
             self.server_thread.start()
         else:
             self.server.start()
