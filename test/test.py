@@ -1,5 +1,4 @@
 import sys, os, time
-sys.path.append('/Users/ht/googledrive/PycharmProjects/bokeh_dev_tools')
 from bokeh_dev_tools import watcher
 import sample_bokeh_app
 import importlib
@@ -7,7 +6,8 @@ import importlib
 
 if __name__=='__main__':
     from bokeh_dev_tools.interactive_bokeh_server import InteractiveBokehServer
-    server = InteractiveBokehServer()
+    port = 6006
+    server = InteractiveBokehServer(port=port)
     path = '/Users/ht/googledrive/PycharmProjects/bokeh_dev_tools/test'
     # 呼び出されたら、sample_bokeh_appを読み込み直して、serverを更新する関数
     modules_reload = [sample_bokeh_app]
@@ -18,6 +18,6 @@ if __name__=='__main__':
         server.add_app_dict(app_dict)
     # 開くだけのtest
     def test(driver):
-        driver.get('http://localhost:6006' + '/test')
+        driver.get(f'http://localhost:{port}/test')
     # path以下の*.pyの変更を監視, 変更があったらupdate_bokeh(), test(driver)を実行する
     watcher.watch_bokeh_app(path, update_bokeh, test, patterns=['*.py'])

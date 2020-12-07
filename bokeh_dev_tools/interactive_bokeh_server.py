@@ -7,11 +7,12 @@ class InteractiveBokehServer:
     _instance = None
     _exist = False
 
-    def __init__(self, app_dict=None):
+    def __init__(self, app_dict=None, port=6006):
         if InteractiveBokehServer._exist:
             print('server already exists')
             print(f'server running at {self.url}')
             return
+        self.port = port
         self.app_dict = app_dict if app_dict is not None else{}
         if str(get_ipython()).find('colab')!=-1:
             self.env = 'colab'
@@ -58,9 +59,9 @@ class InteractiveBokehServer:
 
     def get_server(self, allow_websocket_origin=['*']):
         if self.env != 'colab':
-            self.server = Server(self.app_dict, port=6006)
+            self.server = Server(self.app_dict, port=self.port)
         else:
-            self.server = Server(self.app_dict, port=6006, allow_websocket_origin=['*'])
+            self.server = Server(self.app_dict, port=self.port, allow_websocket_origin=['*'])
         return self.server
 
     def prepare_ngrok(self):
