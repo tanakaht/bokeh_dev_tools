@@ -8,3 +8,13 @@
 ## 使い方
 
 test/test.pyを参照
+
+## requirement
+
+多分
+
+- watchdog
+- selenium
+- bokeh
+
+(pip化したい)
