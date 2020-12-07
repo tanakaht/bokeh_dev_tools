@@ -17,13 +17,3 @@ pip install -U git+https://github.com/tanakaht/bokeh_dev_tools
 ## 使い方
 
 test/test.pyを参照
-
-## requirement
-
-多分
-
-- watchdog
-- selenium
-- bokeh
-
-(pip化したい)
