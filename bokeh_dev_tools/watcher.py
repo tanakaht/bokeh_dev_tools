@@ -6,7 +6,7 @@ from bokeh_dev_tools.interactive_bokeh_server import InteractiveBokehServer
 import importlib
 
 driver = webdriver.Chrome()
-server = InteractiveBokehServer(port=port)
+server = InteractiveBokehServer(port=6006)
 
 class MyHandler(PatternMatchingEventHandler):
     def __init__(self, patterns):
@@ -45,11 +45,11 @@ def watch(path, main_func, patterns=['*.py']):
         observer.stop()
     observer.join()
 
-def watch_bokeh_app(path_watched, bokeh_app, modules_reload, test, patterns=['*.py']):
+def watch_bokeh_app(path_watched, app_getter, modules_reload, test, patterns=['*.py']):
     def update_bokeh():
         for mod in modules_reload:
             importlib.reload(mod)
-        app_dict = {'/test': bokeh_app}
+        app_dict = {'/test': app_getter()}
         server.add_app_dict(app_dict)
     def main_func():
         update_bokeh()
@@ -57,4 +57,4 @@ def watch_bokeh_app(path_watched, bokeh_app, modules_reload, test, patterns=['*.
     watch(path_watched, main_func, patterns)
 
 def just_open_test(driver):
-    driver.open(f'http://localhost:6006/test')
+    driver.get(f'http://localhost:6006/test')
