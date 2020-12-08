@@ -2,8 +2,11 @@ import time
 from watchdog.observers.polling import PollingObserver
 from watchdog.events import PatternMatchingEventHandler
 from selenium import webdriver
+from bokeh_dev_tools.interactive_bokeh_server import InteractiveBokehServer
+import importlib
 
 driver = webdriver.Chrome()
+server = InteractiveBokehServer(port=port)
 
 class MyHandler(PatternMatchingEventHandler):
     def __init__(self, patterns):
@@ -42,9 +45,16 @@ def watch(path, main_func, patterns=['*.py']):
         observer.stop()
     observer.join()
 
-
-def watch_bokeh_app(path, update_bokeh, test, patterns=['*.py']):
+def watch_bokeh_app(path_watched, bokeh_app, modules_reload, test, patterns=['*.py']):
+    def update_bokeh():
+        for mod in modules_reload:
+            importlib.reload(mod)
+        app_dict = {'/test': bokeh_app}
+        server.add_app_dict(app_dict)
     def main_func():
         update_bokeh()
         test(driver)
-    watch(path, main_func, patterns)
+    watch(path_watched, main_func, patterns)
+
+def just_open_test(driver):
+    driver.open(f'http://localhost:6006/test')
