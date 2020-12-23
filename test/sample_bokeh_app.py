@@ -7,7 +7,7 @@ import numpy as np
 
 def mod_doc(doc):
     p = figure()
-    d = dict(x=np.random.rand(3000), y=np.random.rand(3000))
+    d = dict(x=np.random.rand(300), y=np.random.rand(300))
     ds = ColumnDataSource(d)
     r = p.circle(x='x', y='y', source=ds)
     doc.add_root(p)
